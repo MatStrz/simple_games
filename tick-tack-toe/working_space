@@ -1,0 +1,15 @@
+
+
+print("Welcome in my Tick tack toe game")
+
+startGame = input("Dou you want to palay? Y/N")
+
+while True:
+    if startGame.upper() == "Y":
+        board = ["#"] * 10
+        print("początek gry")
+    if startGame.upper() == "N":
+        print("Good Bye!")
+        break
+    else:
+        startGame = input("Please choose correct answear: y/n")
