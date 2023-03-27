@@ -4,9 +4,9 @@ import time
 
 window = turtle.Screen()
 
-BOK = 800
-X = -BOK/2
-Y = BOK/2
+BOK = 600
+X = -300
+Y = 300
 
 window.setup(BOK, BOK)
 window.title('Kółko i krzyżyk')
@@ -22,28 +22,32 @@ tablica = [[None, None, None],
            [None, None, None],
            [None, None, None]]
 
-kolej = random.choice(['X', 'O'])
+kolej = random.choice(['x', 'o'])
 
-odstep = int(BOK/3)
+# linie
+
+ODSTĘP = int(BOK / 3)
 
 for a in [1, 2]:
     xo.penup()
-    xo.goto(X + a * odstep, Y)
+    xo.goto(X + a*ODSTĘP, Y)
     xo.pendown()
-    xo.goto(X + a * odstep, -Y)
+    xo.goto(X + a*ODSTĘP, -Y)
 
     xo.penup()
-    xo.goto(X, Y - a * odstep)
+    xo.goto(X, Y - a*ODSTĘP)
     xo.pendown()
-    xo.goto(-X, Y - a * odstep)
+    xo.goto(-X, Y - a*ODSTĘP)
 
 
 def sprawdz():
 
+    # po skosie
     if tablica[0][0] == tablica[1][1] == tablica[2][2]:
         return tablica[2][2]
     if tablica[0][2] == tablica[1][1] == tablica[2][0]:
         return tablica[2][0]
+
     # w wierszu
     for w in range(3):
         if tablica[w][0] == tablica[w][1] == tablica[w][2]:
@@ -58,60 +62,64 @@ def sprawdz():
 
 
 def click(x, y):
-    global kolej
-    print("click")
 
-    # które pole klikną gracz
+    global kolej
+
+    # które to pole
     kolumna = 0
     wiersz = 0
 
-    if x < X + odstep:
+    if x < X + ODSTĘP:
         kolumna = 0
-    elif x > X + 2 * odstep:
+    elif x > X + 2*ODSTĘP:
         kolumna = 2
     else:
         kolumna = 1
 
-    if y > Y - odstep:
-        wiersz = 0
-    elif y < Y - 2 * odstep:
+    if y < Y - 2*ODSTĘP:
         wiersz = 2
+    elif y > Y - ODSTĘP:
+        wiersz = 0
     else:
         wiersz = 1
 
-    # czy kliknięte pole jest wolne?
+    # pole jest puste ?
 
     if tablica[wiersz][kolumna] != None:
         return
 
-    kolumna_srodek = (kolumna * odstep + odstep/2) - BOK/2
-    wiersz_srodek = (-wiersz * odstep - odstep/2) + BOK/2
+    # narysować
+
+    kolumna_środek = (kolumna*ODSTĘP + ODSTĘP/2) - BOK/2
+    wiersz_środek = (-wiersz*ODSTĘP - ODSTĘP/2) + BOK/2
 
     xo.penup()
-    xo.goto(kolumna_srodek - int(BOK/24), wiersz_srodek - int(BOK/24))
-    if kolej == 'X':
-        xo.write('X', font=('Arial', int(BOK / 12)))
+    xo.goto(kolumna_środek-25, wiersz_środek-25)
+    if kolej == 'x':
+        xo.write('X', font=('Arial', 50))
     else:
-        xo.write('O', font=('Arial', int(BOK / 12)))
+        xo.write('O', font=('Arial', 50))
+
+    # dodać informację x / o
 
     tablica[wiersz][kolumna] = kolej
 
-    if kolej == 'O':
-        kolej = 'X'
+    if kolej == 'o':
+        kolej = 'x'
     else:
-        kolej = 'O'
+        kolej = 'o'
+
+    # sprawdź
 
     if sprawdz() != None:
         xo.penup()
-        xo.goto(int(-BOK/4), 0)
+        xo.goto(-150, 0)
         time.sleep(1)
         xo.clear()
-        xo.write('Wygały ' + sprawdz(), font=('Arial', int(BOK / 12)))
-        
+        xo.write(" Wygrały " + sprawdz(), font=("Arial", 50))
 
 
 window.onclick(click)
-
 
 window.listen()
 window.mainloop()
