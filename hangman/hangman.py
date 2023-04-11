@@ -16,12 +16,13 @@ def hangman():
     alphabet = set(string.ascii_uppercase)
     used_letters = set()
 
-    # Getting user leter
+    # Getting user letter
     while len(word_letters) > 0:
-        
+
         print('\nYou have used this letters: ', ' '.join(used_letters))
-        
-        word_list = [letter if letter in used_letters else '_' for letter in  word]
+
+        word_list = [
+            letter if letter in used_letters else '_' for letter in word]
         print('Current word: ', ' '.join(word_list))
 
         user_letter = input('Guess a letter: ').upper()
@@ -36,7 +37,7 @@ def hangman():
 
         else:
             print('Sorry wrong character :(, please try again')
-    
+
     print("Congratulations the word is: ", word)
 
 
